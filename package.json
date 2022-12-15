@@ -1,0 +1,19 @@
+{
+  "name": "srett-5-slide",
+  "repository": "git@github.com:koki-develop/srett-5-slide.git",
+  "author": "koki-develop <kou.pg.0131@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "dev": "yarn build:slides --watch",
+    "build": "run-p build:*",
+    "build:slides": "marp ./slide.md --html --output=./dist/index.html --theme ./styles/styles.scss",
+    "build:assets": "mkdir -p ./dist && cp -r ./assets/ ./dist/assets/"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^2.2.0",
+    "npm-run-all": "^4.1.5"
+  }
+}

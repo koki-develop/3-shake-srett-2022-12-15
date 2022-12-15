@@ -1,0 +1,49 @@
+/* @theme main */
+@import "gaia";
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.3em;
+}
+
+h3 {
+  font-size: 1.1em;
+}
+
+h4 {
+  font-size: 1.05em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+section {
+  background-color: white;
+  font-size: 32px;
+}
+
+section.heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+code {
+  border-radius: 0.25em;
+}
+
+footer {
+  width: 400px;
+}

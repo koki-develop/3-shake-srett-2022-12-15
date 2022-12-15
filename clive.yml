@@ -1,0 +1,111 @@
+# documentation: https://github.com/koki-develop/clive#settings
+settings:
+  loginCommand: ["bash", "--login"]
+  fontSize: 22
+  defaultSpeed: 10
+
+# documentation: https://github.com/koki-develop/clive#actions
+actions:
+  # cleanup
+  - type: ./cleanup.sh
+  - key: enter
+  - type: cd ./demo
+  - key: enter
+  - type: rm ./main.go
+  - key: enter
+  - ctrl: l
+  - pause
+
+  - type: nvim ./main.go
+  - pause
+  - key: enter
+  - sleep: 500
+
+  - type: i
+  - type: |-
+      package main
+  - key: esc
+  - pause
+  - type: "o\n"
+  - type: |-
+      import (
+      "context"
+      "os"
+
+      "dagger.io/dagger"
+  - key: esc
+  - type: G
+  - type: "o\n"
+  - type: |-
+      func main() {
+      ctx := context.Background()
+
+      // クライアントを初期化して Dagger Engine に接続する
+      // dagger.WithLogOutput でログの出力先を指定できる
+      client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stdout))
+      if err != nil {
+      panic(err)
+  - key: esc
+  - type: jo
+  - type: |-
+      defer client.Close()
+  - key: esc
+
+  - pause
+  - key: esc
+
+  - type: G
+  - type: "O\n"
+  - type: |-
+      // Docker イメージを取得する
+      container := client.Container().From("golang:1.19")
+  - key: esc
+  - pause
+  - key: esc
+
+  - type: G
+  - type: "O\n"
+  - type: |-
+      // カレントディレクトリをコンテナにマウントする
+      src := client.Host().Directory(".")
+      container = container.
+        WithMountedDirectory("/src", src).
+      WithWorkdir("/src")
+  - key: esc
+  - pause
+  - key: esc
+
+  - type: G
+  - type: "O\n"
+  - key: backspace
+  - type: |-
+      // 実行するコマンドを設定する
+      container = container.
+        WithExec([]string{"go", "test", "-v", "./..."}).
+      WithExec([]string{"go", "build"})
+  - key: esc
+  - pause
+  - key: esc
+
+  - type: G
+  - type: "O\n"
+  - key: backspace
+  - type: |-
+      // パイプラインを実行する
+      if _, err := container.ExitCode(ctx); err != nil {
+      panic(err)
+  - key: esc
+  - type: :w
+  - key: enter
+  - pause
+  - key: esc
+  - type: :q
+  - key: enter
+  - pause
+
+  - type: go run ./main.go
+  - pause
+  - key: enter
+  - pause
+
+  - sleep: 5000 # enter 押しすぎて閉じるの防止
